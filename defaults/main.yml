@@ -3,4 +3,4 @@
 openshift_console_url: https://10.240.0.11:8443  
 openshift_user: admin
 openshift_password: handhand
-openshift_server: ocpmaster001
+openshift_node: ocpmaster001

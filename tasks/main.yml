@@ -7,5 +7,5 @@
   # delegate_to: 127.0.0.1  
 
 - name: schedule=false
-  shell: /usr/local/bin/oc --kubeconfig ~/.kube/config  oc adm manage-node {{ openshift_server }} --schedulable=false
+  shell: /usr/local/bin/oc --kubeconfig ~/.kube/config  oc adm manage-node {{ openshift_node }} --schedulable=false
   # delegate_to: 127.0.0.1  
