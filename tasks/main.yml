@@ -3,15 +3,10 @@
   shell: /usr/local/bin/oc login --insecure-skip-tls-verify  {{ openshift_console_url }} --username='{{ openshift_user }}' --password='{{ openshift_password }}'
   register: login
 
-  #  - name: check login
-  # shell: /usr/local/bin/oc --kubeconfig ~/.kube/config whoami -t 
-
-
 - name: (CHECK) - Check state schedule 
   shell: /usr/local/bin/oc  --kubeconfig ~/.kube/config get node ocpmaster001 --output=jsonpath={.spec..unschedulable} 
-  when: login.stderr != "true"
+  when: login.stderr == ""
   register: setschedulefalse
-
 
 - name: (SET) - Set schedule=false
   shell: /usr/local/bin/oc --kubeconfig ~/.kube/config adm manage-node {{ openshift_node }} --schedulable=false
@@ -21,10 +16,10 @@
 - name: (MSG) - Output of set schedule   
   debug:
     var: schedule   
-  when: schedule is defined
+  when: schedule is defined and setschedulefalse.stdout != "true" and setschedulefalse.stderr == ""
 
 - name: (SET) - check schedule false
-  shell: /usr/local/bin/oc  --kubeconfig ~/.kube/config get node ocpmaster001 --output=jsonpath={.spec..unschedulable} 
+  shell: /usr/local/bin/oc  --kubeconfig ~/.kube/config get node {{ openshift_node }}  --output=jsonpath={.spec..unschedulable} 
   when: setschedulefalse.stdout != "true" and setschedulefalse.stderr == ""
   register: result
 
@@ -32,7 +27,3 @@
   debug:
     var: result
 
- 
-
-    # when: result.stderr != ""
-    # when: oclogincheck.stderr != ""
