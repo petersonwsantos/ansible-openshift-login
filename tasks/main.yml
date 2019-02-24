@@ -20,7 +20,7 @@
 
 - name: (MSG) - Output of set schedule   
   debug:
-    var: schedule.stdout     
+    var: schedule   
   when: schedule is defined
 
 - name: (SET) - check schedule false
