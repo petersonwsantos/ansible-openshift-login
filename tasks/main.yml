@@ -25,6 +25,5 @@
 
 - name: (MSG) - Result of Ansilble    
   debug: 
-    msg: "testes {{ result.stdout }}"
-    # var: result
+    var: result
 
