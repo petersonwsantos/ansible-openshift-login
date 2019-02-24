@@ -3,5 +3,5 @@
   shell: /usr/local/bin/oc login --insecure-skip-tls-verify  {{ openshift_server }} --username='{{ openshift_user }}' --password='{{ openshift_password }}'
   delegate_to: 127.0.0.1  
 - name: check login
-  shell: /usr/local/bin/oc whoami -t > /tmp/token.peterson
+  shell: /usr/local/bin/oc whoami -t
   delegate_to: 127.0.0.1  
