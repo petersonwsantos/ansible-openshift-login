@@ -18,11 +18,11 @@
 
 - name: msg result   
   debug:
-    var: result.stdout
+    var: result
 
 - name: msg schedule   
   debug:
-    var: schedule.stdout      
+    var: schedule      
 
     # when: result.stderr != ""
     # when: oclogincheck.stderr != ""
