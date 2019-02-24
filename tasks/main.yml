@@ -15,5 +15,5 @@
   shell: oc --kubeconfig ~/.kube/config get node ocpmaster001 --output=jsonpath={.spec..unschedulable} 
   # true = schedule false       empty = schedule true
   register: pv
-  - debug:
+  debug:
     var: pv
