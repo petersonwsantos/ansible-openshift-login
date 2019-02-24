@@ -11,18 +11,20 @@
   when: login.stdout != ""
   register: schedule
 
+- name: msg schedule   
+  debug:
+    var: schedule     
+
 - name: check schedule false
   shell: /usr/local/bin/oc  --kubeconfig ~/.kube/config get node ocpmaster001 --output=jsonpath={.spec..unschedulable} 
-  when: login.stderr = "" and schedule.stderr = ""  
+  when: login.stderr = "" and schedule = "true"  
   register: result
 
 - name: msg result   
   debug:
     var: result
 
-- name: msg schedule   
-  debug:
-    var: schedule      
+ 
 
     # when: result.stderr != ""
     # when: oclogincheck.stderr != ""
