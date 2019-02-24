@@ -1,19 +1,23 @@
 ---
 - name: login Openshift
   shell: /usr/local/bin/oc login --insecure-skip-tls-verify  {{ openshift_console_url }} --username='{{ openshift_user }}' --password='{{ openshift_password }}'
-  # delegate_to: 127.0.0.1  
+ 
 - name: check login
   shell: /usr/local/bin/oc --kubeconfig ~/.kube/config whoami -t 
-  # delegate_to: 127.0.0.1  
+  register: login
 
 - name: set schedule  false
   shell: /usr/local/bin/oc --kubeconfig ~/.kube/config adm manage-node {{ openshift_node }} --schedulable=false
-  # delegate_to: 127.0.0.1  
-
+  when: login.stderr != ""
+  register: schedule
 
 - name: check schedule false
-  shell: oc --kubeconfig ~/.kube/config get node ocpmaster001 --output=jsonpath={.spec..unschedulable} 
-  register: pv
+  shell: /usr/local/bin/oc  --kubeconfig ~/.kube/config get node ocpmaster001 --output=jsonpath={.spec..unschedulable} 
+  when: login.stderr != "" and schedule.stderr != ""  
+  register: result
 
-- debug:
-    var: pv.stdout
+- name: msg result   
+  debug:
+    var: result.stdout
+  when: result.stderr != ""
+    # when: oclogincheck.stderr != ""
