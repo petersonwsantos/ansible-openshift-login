@@ -9,3 +9,11 @@
 - name: schedule=false
   shell: /usr/local/bin/oc --kubeconfig ~/.kube/config adm manage-node {{ openshift_node }} --schedulable=false
   # delegate_to: 127.0.0.1  
+
+
+- name: schedule=false
+  shell: oc --kubeconfig ~/.kube/config get node ocpmaster001 --output=jsonpath={.spec..unschedulable} 
+  # true = schedule false       empty = schedule true
+  register: pv
+  - debug:
+    var: pv
