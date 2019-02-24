@@ -1,10 +1,11 @@
 ---
 - name: login Openshift
   shell: /usr/local/bin/oc login --insecure-skip-tls-verify  {{ openshift_console_url }} --username='{{ openshift_user }}' --password='{{ openshift_password }}'
- 
-- name: check login
-  shell: /usr/local/bin/oc --kubeconfig ~/.kube/config whoami -t 
   register: login
+
+  #  - name: check login
+  # shell: /usr/local/bin/oc --kubeconfig ~/.kube/config whoami -t 
+
 
 - name: check schedule false
   shell: /usr/local/bin/oc  --kubeconfig ~/.kube/config get node ocpmaster001 --output=jsonpath={.spec..unschedulable} 
