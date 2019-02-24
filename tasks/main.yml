@@ -4,7 +4,7 @@
   register: login
 
 - name: (CHECK) - Check schedule "current state before config"
-  shell: /usr/local/bin/oc  --kubeconfig ~/.kube/config get node ocpmaster001 --output=jsonpath={.spec..unschedulable} 
+  shell: /usr/local/bin/oc  --kubeconfig ~/.kube/config get node {{ openshift_node }} --output=jsonpath={.spec..unschedulable} 
   when: login.stderr == ""
   register: setschedulefalse
 
