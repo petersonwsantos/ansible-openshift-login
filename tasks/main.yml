@@ -16,4 +16,4 @@
   register: pv
 
 - debug:
-    var: pv
+    var: pv.stdout
