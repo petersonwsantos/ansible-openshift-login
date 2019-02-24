@@ -17,4 +17,3 @@
 
 - debug:
     var: pv
-    verbosity: 2    
