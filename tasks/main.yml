@@ -1,5 +1,5 @@
 ---
-- name: login Openshift
+- name: (LOGIN) - Make login in Openshift cluster
   shell: /usr/local/bin/oc login --insecure-skip-tls-verify  {{ openshift_console_url }} --username='{{ openshift_user }}' --password='{{ openshift_password }}'
   register: login
 
@@ -7,28 +7,28 @@
   # shell: /usr/local/bin/oc --kubeconfig ~/.kube/config whoami -t 
 
 
-- name: check schedule false
+- name: (CHECK) - Check state schedule 
   shell: /usr/local/bin/oc  --kubeconfig ~/.kube/config get node ocpmaster001 --output=jsonpath={.spec..unschedulable} 
   when: login.stderr != "true"
   register: setschedulefalse
 
 
-- name: set schedule  false
+- name: (SET) - Set schedule=false
   shell: /usr/local/bin/oc --kubeconfig ~/.kube/config adm manage-node {{ openshift_node }} --schedulable=false
   when: setschedulefalse.stdout != "true" and setschedulefalse.stderr == ""
   register: schedule
 
-- name: msg schedule   
+- name: (MSG) - Output of set schedule   
   debug:
     var: schedule     
   when: schedule is defined
 
-- name: check schedule false
+- name: (SET) - check schedule false
   shell: /usr/local/bin/oc  --kubeconfig ~/.kube/config get node ocpmaster001 --output=jsonpath={.spec..unschedulable} 
   when: setschedulefalse.stdout != "true" and setschedulefalse.stderr == ""
   register: result
 
-- name: msg result   
+- name: (MSG) - Result of Ansilble    
   debug:
     var: result
 
