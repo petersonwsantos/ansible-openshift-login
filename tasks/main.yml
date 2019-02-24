@@ -1,7 +1,11 @@
 ---
 - name: login Openshift
-  shell: /usr/local/bin/oc login --insecure-skip-tls-verify  {{ openshift_server }} --username='{{ openshift_user }}' --password='{{ openshift_password }}'
+  shell: /usr/local/bin/oc login --insecure-skip-tls-verify  {{ openshift_console_url }} --username='{{ openshift_user }}' --password='{{ openshift_password }}'
   # delegate_to: 127.0.0.1  
 - name: check login
-  shell: /usr/local/bin/oc whoami -t --kubeconfig ~/.kube/config
+  shell: /usr/local/bin/oc --kubeconfig ~/.kube/config whoami -t 
+  # delegate_to: 127.0.0.1  
+
+- name: schedule=false
+  shell: /usr/local/bin/oc --kubeconfig ~/.kube/config  oc adm manage-node {{ openshift.server }} --schedulable=false
   # delegate_to: 127.0.0.1  
