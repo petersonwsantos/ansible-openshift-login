@@ -24,6 +24,6 @@
   register: result
 
 - name: (MSG) - Result of Ansilble    
-  debug:
+  debug: testes {{ result.stdout }}
     var: result
 
