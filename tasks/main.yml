@@ -1,4 +1,5 @@
 ---
+  
 - name: (LOGIN) - Make login in Openshift cluster
   shell: /usr/local/bin/oc login --insecure-skip-tls-verify  {{ openshift_console_url }} --username='{{ openshift_user }}' --password='{{ openshift_password }}'
   register: login
