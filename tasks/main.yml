@@ -6,18 +6,25 @@
   shell: /usr/local/bin/oc --kubeconfig ~/.kube/config whoami -t 
   register: login
 
+- name: check schedule false
+  shell: /usr/local/bin/oc  --kubeconfig ~/.kube/config get node ocpmaster001 --output=jsonpath={.spec..unschedulable} 
+  when: schedule.stderr == "true"
+  register: schedulefalse
+
+
 - name: set schedule  false
   shell: /usr/local/bin/oc --kubeconfig ~/.kube/config adm manage-node {{ openshift_node }} --schedulable=false
-  when: login.stdout != ""
+  when: login.stdout != "" and schedulefalse.stdout != "true"
   register: schedule
 
 - name: msg schedule   
   debug:
     var: schedule     
+  when: schedulefalse.stdout != "true"
 
 - name: check schedule false
   shell: /usr/local/bin/oc  --kubeconfig ~/.kube/config get node ocpmaster001 --output=jsonpath={.spec..unschedulable} 
-  when: schedule.stderr == ""
+  when: schedule.stderr == "" and schedulefalse.stdout != "true"
   register: result
 
 - name: msg result   
