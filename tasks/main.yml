@@ -1,0 +1,10 @@
+---
+- name: login Openshift
+  shell: /usr/local/bin/oc login {{ openshift_server }} --username='{{ openshift_user }}' --password='{{ openshift_password }}'
+  delegate_to: 127.0.0.1  
+- name: check login
+  shell: /usr/local/bin/oc whoami
+  delegate_to: 127.0.0.1  
+
+
+
