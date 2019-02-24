@@ -8,7 +8,7 @@
 
 - name: set schedule  false
   shell: /usr/local/bin/oc --kubeconfig ~/.kube/config adm manage-node {{ openshift_node }} --schedulable=false
-  when: login.stderr != ""
+  when: login.stdout != ""
   register: schedule
 
 - name: check schedule false
