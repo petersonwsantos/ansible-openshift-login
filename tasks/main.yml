@@ -19,5 +19,5 @@
 - name: msg result   
   debug:
     var: result.stdout
-  when: result.stderr != ""
+  # when: result.stderr != ""
     # when: oclogincheck.stderr != ""
